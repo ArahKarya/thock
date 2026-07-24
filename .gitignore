@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# graphify knowledge-graph artifacts (local analysis output)
+graphify-out/
