@@ -12,6 +12,7 @@
 [![Tauri](https://img.shields.io/badge/Tauri-2.x-7B2FBF?style=flat-square&logo=tauri&logoColor=white)](https://tauri.app)
 [![Audio](https://img.shields.io/badge/Audio-CC0%20Procedural-FF6F61?style=flat-square)](src-tauri/sounds/)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-0F3460?style=flat-square)](https://github.com/ArahKarya/thock/releases)
+[![Release](https://img.shields.io/github/v/release/ArahKarya/thock?style=flat-square&color=16C79A&label=Release)](https://github.com/ArahKarya/thock/releases/latest)
 
 </div>
 
@@ -89,9 +90,26 @@ thock/
 │   └── tauri.conf.json    # App config (identifier, window, tray)
 ├── tools/
 │   └── gen_sounds.py      # Sound pack generator (Python stdlib)
+├── design/
+│   ├── icon.svg            # Master app icon (SVG source)
+│   └── icon-1024.png       # Exported 1024×1024 PNG
 ├── package.json
 └── vite.config.ts
 ```
+
+## 📦 Download
+
+Pre-built binaries are published automatically on every tagged release via GitHub Actions.
+Download the latest build from the [**Releases page**](https://github.com/ArahKarya/thock/releases/latest):
+
+| Platform | Format |
+|---|---|
+| macOS (Apple Silicon) | `.dmg` (aarch64) |
+| macOS (Intel) | `.dmg` (x86_64) |
+| Linux | `.deb` · `.AppImage` · `.rpm` |
+| Windows | `.msi` · `-setup.exe` |
+
+> **macOS/Linux note:** grant Input Monitoring (macOS) or run under X11 / add user to `input` group (Linux) for global key capture — see [Permissions](#-permissions) below.
 
 ## 🚀 Quickstart
 
@@ -104,7 +122,8 @@ thock/
   - **Linux** (Debian/Ubuntu):
     ```bash
     sudo apt install libwebkit2gtk-4.1-dev build-essential libasound2-dev \
-                     libx11-dev libxi-dev libxtst-dev
+                     libx11-dev libxi-dev libxtst-dev \
+                     libayatana-appindicator3-dev librsvg2-dev patchelf
     ```
   - **Windows**: WebView2 (pre-installed on Win 11) + MSVC build tools
 
@@ -153,8 +172,9 @@ Global key capture requires OS permission:
 - [x] System tray menu (pack picker, toggles, settings, quit)
 - [x] Config persisted to OS config directory
 - [x] Pluggable JSON sound-pack format
-- [ ] Pre-built binaries / releases
-- [ ] Settings UI (in-progress)
+- [x] CI/CD release workflow (GitHub Actions — auto-build on tag)
+- [x] Pre-built binaries (`.dmg` / `.deb` / `.AppImage` / `.rpm` / `.msi` / `.exe`)
+- [x] Settings UI
 - [ ] More bundled packs
 
 ## 🧱 Stack
