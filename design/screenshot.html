@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Uses the SHIPPING stylesheet verbatim so the screenshot matches the app. -->
+    <link rel="stylesheet" href="../src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thock — Settings</title>
+    <style>
+      :root { --bg: #17181c; }
+      html { color-scheme: dark; }
+      /* Pin the panel to a real 400px window width, top-left, for the capture. */
+      body { margin: 0; background: var(--bg); }
+      .app { max-width: none; width: 400px; margin: 0; }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <span class="app__logo" aria-hidden="true">⌨️</span>
+        <div>
+          <h1 class="app__title">Thock</h1>
+          <p class="app__subtitle">Mechanical keyboard sounds</p>
+        </div>
+      </header>
+
+      <section class="card">
+        <label class="switch">
+          <span class="switch__label">Keyboard sounds</span>
+          <input type="checkbox" id="enabled" checked />
+          <span class="switch__track"><span class="switch__thumb"></span></span>
+        </label>
+
+        <label class="switch">
+          <span class="switch__label">Mouse click sounds</span>
+          <input type="checkbox" id="mouse" checked />
+          <span class="switch__track"><span class="switch__thumb"></span></span>
+        </label>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="pack">Sound pack</label>
+          </div>
+          <select id="pack" class="select">
+            <option>Thock</option>
+            <option>Clicky</option>
+            <option>Tactile</option>
+            <option>Typewriter</option>
+          </select>
+          <p class="field__desc">Deep, muted 'thocky' switches.</p>
+        </div>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="volume">Volume</label>
+            <output id="volume-out">60%</output>
+          </div>
+          <input type="range" id="volume" min="0" max="100" value="60" />
+        </div>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="pitch">Pitch variation</label>
+            <output id="pitch-out">25%</output>
+          </div>
+          <input type="range" id="pitch" min="0" max="100" value="25" />
+        </div>
+
+        <label class="switch">
+          <span class="switch__label">Play sound on key release</span>
+          <input type="checkbox" id="release" checked />
+          <span class="switch__track"><span class="switch__thumb"></span></span>
+        </label>
+
+        <button id="test" class="btn">Test sound</button>
+      </section>
+
+      <p class="hint">Sound pack: Thock (default)</p>
+    </main>
+  </body>
+</html>
