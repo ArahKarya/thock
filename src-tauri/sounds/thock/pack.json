@@ -1,0 +1,18 @@
+{
+  "name": "Thock (default)",
+  "author": "Thock project",
+  "license": "CC0-1.0",
+  "version": "1.0.0",
+  "description": "Procedurally synthesized default sound pack. Original work, no third-party audio.",
+  "default": { "press": "key_press.wav", "release": "key_release.wav" },
+  "keys": {
+    "Space":     { "press": "space_press.wav", "release": "space_release.wav" },
+    "Enter":     { "press": "enter_press.wav", "release": "enter_release.wav" },
+    "Backspace": { "press": "backspace_press.wav" },
+    "Shift":     { "press": "modifier_press.wav" },
+    "Control":   { "press": "modifier_press.wav" },
+    "Alt":       { "press": "modifier_press.wav" },
+    "Meta":      { "press": "modifier_press.wav" },
+    "Tab":       { "press": "modifier_press.wav" }
+  }
+}

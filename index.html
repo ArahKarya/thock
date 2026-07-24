@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thock — Settings</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <span class="app__logo" aria-hidden="true">⌨️</span>
+        <div>
+          <h1 class="app__title">Thock</h1>
+          <p class="app__subtitle">Mechanical keyboard sounds</p>
+        </div>
+      </header>
+
+      <section class="card">
+        <label class="switch">
+          <span class="switch__label">Enable sounds</span>
+          <input type="checkbox" id="enabled" />
+          <span class="switch__track"><span class="switch__thumb"></span></span>
+        </label>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="volume">Volume</label>
+            <output id="volume-out">60%</output>
+          </div>
+          <input type="range" id="volume" min="0" max="100" value="60" />
+        </div>
+
+        <div class="field">
+          <div class="field__row">
+            <label for="pitch">Pitch variation</label>
+            <output id="pitch-out">25%</output>
+          </div>
+          <input type="range" id="pitch" min="0" max="100" value="25" />
+        </div>
+
+        <label class="switch">
+          <span class="switch__label">Play sound on key release</span>
+          <input type="checkbox" id="release" />
+          <span class="switch__track"><span class="switch__thumb"></span></span>
+        </label>
+
+        <button id="test" class="btn">Test sound</button>
+      </section>
+
+      <p class="hint" id="hint"></p>
+    </main>
+  </body>
+</html>
