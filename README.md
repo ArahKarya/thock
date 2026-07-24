@@ -22,10 +22,12 @@ Thock is a lightweight system-tray utility that intercepts global keystrokes and
 
 Designed to be pluggable: bring your own sound packs via a simple JSON manifest.
 
+## 📸 Tampilan
+
 <div align="center">
 <img src="docs/settings.png" alt="Thock settings window" width="300"/>
 <br/>
-<sub>The settings window — toggles, sound-pack picker, volume &amp; pitch controls. Lives in the system tray.</sub>
+<sub>Settings window — toggles, sound-pack picker, volume &amp; pitch controls. Lives in the system tray.</sub>
 </div>
 
 ## ✨ Why Thock
