@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="design/icon-1024.png" width="120" alt="Thock icon"/>
+
 # 🎹 Thock — Mechanical Keyboard Sound Simulator
 
 **Every keystroke, satisfying. System-wide, cross-platform, zero latency.**
