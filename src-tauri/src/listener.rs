@@ -81,6 +81,12 @@ mod platform {
                 CGEventType::KeyDown,
                 CGEventType::KeyUp,
                 CGEventType::FlagsChanged,
+                CGEventType::LeftMouseDown,
+                CGEventType::LeftMouseUp,
+                CGEventType::RightMouseDown,
+                CGEventType::RightMouseUp,
+                CGEventType::OtherMouseDown,
+                CGEventType::OtherMouseUp,
             ],
             move |_proxy, event_type, event| {
                 let code = event.get_integer_value_field(EventField::KEYBOARD_EVENT_KEYCODE);
@@ -102,6 +108,12 @@ mod platform {
                         }
                         shared.on_key(logical_from_keycode(code), press);
                     }
+                    CGEventType::LeftMouseDown => shared.on_mouse("MouseLeft", true),
+                    CGEventType::LeftMouseUp => shared.on_mouse("MouseLeft", false),
+                    CGEventType::RightMouseDown => shared.on_mouse("MouseRight", true),
+                    CGEventType::RightMouseUp => shared.on_mouse("MouseRight", false),
+                    CGEventType::OtherMouseDown => shared.on_mouse("MouseMiddle", true),
+                    CGEventType::OtherMouseUp => shared.on_mouse("MouseMiddle", false),
                     _ => {}
                 }
                 None
@@ -139,10 +151,19 @@ mod platform {
     use std::collections::HashSet;
     use std::sync::{Arc, Mutex};
 
-    use rdev::{listen, Event, EventType};
+    use rdev::{listen, Button, Event, EventType};
 
     use crate::keymap;
     use crate::state::AppShared;
+
+    fn mouse_logical(button: Button) -> Option<&'static str> {
+        match button {
+            Button::Left => Some("MouseLeft"),
+            Button::Right => Some("MouseRight"),
+            Button::Middle => Some("MouseMiddle"),
+            _ => None,
+        }
+    }
 
     pub fn run(shared: Arc<AppShared>) {
         let held: Mutex<HashSet<rdev::Key>> = Mutex::new(HashSet::new());
@@ -157,6 +178,16 @@ mod platform {
             EventType::KeyRelease(key) => {
                 held.lock().unwrap().remove(&key);
                 shared.on_key(keymap::logical_name(key), false);
+            }
+            EventType::ButtonPress(button) => {
+                if let Some(logical) = mouse_logical(button) {
+                    shared.on_mouse(logical, true);
+                }
+            }
+            EventType::ButtonRelease(button) => {
+                if let Some(logical) = mouse_logical(button) {
+                    shared.on_mouse(logical, false);
+                }
             }
             _ => {}
         };

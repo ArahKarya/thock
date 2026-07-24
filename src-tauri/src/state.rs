@@ -45,6 +45,15 @@ impl AppShared {
         self.pack.lock().unwrap().name.clone()
     }
 
+    /// Switch the active sound pack, persist the choice, and return the new
+    /// config snapshot.
+    pub fn set_pack(&self, id: &str) -> Config {
+        let pack = SoundPack::load(id);
+        let loaded_id = pack.id.clone();
+        *self.pack.lock().unwrap() = pack;
+        self.update(|c| c.pack = loaded_id)
+    }
+
     /// Mutate the config, persist it to disk, and return the new snapshot.
     pub fn update<F: FnOnce(&mut Config)>(&self, f: F) -> Config {
         let snapshot = {
@@ -73,19 +82,45 @@ impl AppShared {
         self.play_logical(logical, press);
     }
 
+    /// Handle a mouse-button event from the OS listener. `logical` is
+    /// "MouseLeft" / "MouseRight" / "MouseMiddle". Both press and release play
+    /// (a physical click is a down-up pair), independent of `play_on_release`.
+    pub fn on_mouse(&self, logical: &str, press: bool) {
+        if self.debug {
+            eprintln!("thock[debug]: mouse logical={logical:?} press={press}");
+        }
+        let (enabled, mouse_enabled) = {
+            let cfg = self.config.lock().unwrap();
+            (cfg.enabled, cfg.mouse_enabled)
+        };
+        if !enabled || !mouse_enabled {
+            return;
+        }
+        // Exact resolution: packs without mouse sounds stay silent instead of
+        // clicking with the keyboard default.
+        let sound = self.pack.lock().unwrap().resolve_exact(logical, press);
+        if let Some(sound) = sound {
+            self.send_play(sound);
+        }
+    }
+
     /// Play a preview click (used by the Settings "Test" button).
     pub fn play_test(&self) {
         self.play_logical("", true);
     }
 
     fn play_logical(&self, logical: &str, press: bool) {
-        let (volume, pitch) = {
-            let cfg = self.config.lock().unwrap();
-            (cfg.volume, cfg.pitch_variation)
-        };
         let sound = match self.pack.lock().unwrap().resolve(logical, press) {
             Some(s) => s,
             None => return,
+        };
+        self.send_play(sound);
+    }
+
+    fn send_play(&self, sound: crate::soundpack::SoundBytes) {
+        let (volume, pitch) = {
+            let cfg = self.config.lock().unwrap();
+            (cfg.volume, cfg.pitch_variation)
         };
         // +/- up to ~12% playback speed for natural variation.
         let jitter = (fastrand::f32() * 2.0 - 1.0) * pitch * 0.12;

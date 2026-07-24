@@ -1,9 +1,9 @@
 {
-  "name": "Thock",
+  "name": "Tactile",
   "author": "Thock project",
   "license": "CC0-1.0",
   "version": "1.0.0",
-  "description": "Deep, muted 'thocky' switches. Procedurally synthesized; original work, no third-party audio.",
+  "description": "Medium, rounded tactile switches. Procedurally synthesized; original work, no third-party audio.",
   "default": {
     "press": "key_press.wav",
     "release": "key_release.wav"

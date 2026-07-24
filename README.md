@@ -14,10 +14,13 @@ Built with [Tauri 2](https://tauri.app) (Rust backend + web UI).
 ## Features
 
 - Global keystroke → sound, system-wide, with auto-repeat suppression
+- **4 bundled sound packs** (all synthesized, CC0): Thock, Clicky, Tactile,
+  Typewriter — switchable live from the tray or settings window
+- **Mouse click sounds** (left/right/middle), separately toggleable
 - Volume and random pitch-variation controls
 - Optional key-release sounds
 - Distinct sounds for Space / Enter / Backspace / modifiers
-- Tray menu (enable, settings, quit) + a small settings window
+- Tray menu (keyboard/mouse toggles, pack picker, settings, quit)
 - Config persisted to the OS config directory
 - Pluggable sound-pack format (JSON manifest) — bring your own CC0 packs
 
@@ -83,10 +86,11 @@ Global key capture requires OS permission:
 ## Sound packs
 
 See [`src-tauri/sounds/README.md`](src-tauri/sounds/README.md) for the manifest
-format. To regenerate the default pack:
+format. To regenerate all bundled packs (or one of them):
 
 ```bash
-python3 tools/gen_sounds.py src-tauri/sounds/thock
+python3 tools/gen_sounds.py src-tauri/sounds            # all packs
+python3 tools/gen_sounds.py src-tauri/sounds typewriter # one pack
 ```
 
 ## Licensing & provenance

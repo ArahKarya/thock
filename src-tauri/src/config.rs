@@ -16,7 +16,9 @@ pub struct Config {
     pub pitch_variation: f32,
     /// Whether to also play a sound on key release.
     pub play_on_release: bool,
-    /// Active sound pack id (only "thock" is bundled for now).
+    /// Whether mouse button clicks also play sounds.
+    pub mouse_enabled: bool,
+    /// Active sound pack id (see the bundled packs in `sounds/`).
     pub pack: String,
 }
 
@@ -27,6 +29,7 @@ impl Default for Config {
             volume: 0.6,
             pitch_variation: 0.25,
             play_on_release: true,
+            mouse_enabled: true,
             pack: "thock".to_string(),
         }
     }
