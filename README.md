@@ -1,6 +1,6 @@
 <div align="center">
 
-# Thock — Mechanical Keyboard Sound Simulator
+# 🎹 Thock — Mechanical Keyboard Sound Simulator
 
 **Every keystroke, satisfying. System-wide, cross-platform, zero latency.**
 
