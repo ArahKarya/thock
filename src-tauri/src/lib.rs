@@ -5,6 +5,7 @@
 
 mod audio;
 mod config;
+#[cfg(not(target_os = "macos"))]
 mod keymap;
 mod listener;
 mod soundpack;

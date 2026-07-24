@@ -5,11 +5,8 @@ use std::path::PathBuf;
 use std::sync::mpsc::Sender;
 use std::sync::Mutex;
 
-use rdev::Key;
-
 use crate::audio::AudioCmd;
 use crate::config::Config;
-use crate::keymap;
 use crate::soundpack::SoundPack;
 
 pub struct AppShared {
@@ -18,6 +15,8 @@ pub struct AppShared {
     // `Sender` is `!Sync`; wrap it so `AppShared` can be shared behind an `Arc`.
     audio_tx: Mutex<Sender<AudioCmd>>,
     config_path: PathBuf,
+    /// Set via the THOCK_DEBUG env var; logs each key event to stderr.
+    debug: bool,
 }
 
 impl AppShared {
@@ -32,6 +31,7 @@ impl AppShared {
             pack: Mutex::new(pack),
             audio_tx: Mutex::new(audio_tx),
             config_path,
+            debug: std::env::var_os("THOCK_DEBUG").is_some(),
         }
     }
 
@@ -57,8 +57,12 @@ impl AppShared {
         snapshot
     }
 
-    /// Handle a raw key event from the OS listener.
-    pub fn on_key(&self, key: Key, press: bool) {
+    /// Handle a key event from the OS listener. `logical` is the pack key name
+    /// ("Space", "Enter", …) or "" for the pack default sound.
+    pub fn on_key(&self, logical: &str, press: bool) {
+        if self.debug {
+            eprintln!("thock[debug]: key logical={logical:?} press={press}");
+        }
         let (enabled, play_on_release) = {
             let cfg = self.config.lock().unwrap();
             (cfg.enabled, cfg.play_on_release)
@@ -66,7 +70,7 @@ impl AppShared {
         if !enabled || (!press && !play_on_release) {
             return;
         }
-        self.play_logical(keymap::logical_name(key), press);
+        self.play_logical(logical, press);
     }
 
     /// Play a preview click (used by the Settings "Test" button).
