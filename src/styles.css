@@ -218,3 +218,66 @@ input[type="range"]::-moz-range-thumb {
   text-align: center;
   min-height: 16px;
 }
+
+/* ── About section ─────────────────────────────────────── */
+.card--about {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.about__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.about__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0;
+}
+
+.about__version {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 2px 0 0;
+  font-family: ui-monospace, monospace;
+}
+
+.about__desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.about__links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.about__link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about__link:hover {
+  text-decoration: underline;
+}
+
+.about__dot {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.about__copy {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}

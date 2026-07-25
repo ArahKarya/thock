@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
+import { getVersion } from "@tauri-apps/api/app";
 
 interface Config {
   enabled: boolean;
@@ -52,6 +53,15 @@ function render(cfg: Config): void {
 }
 
 async function init(): Promise<void> {
+  // Fetch and display app version
+  try {
+    const version = await getVersion();
+    const versionEl = document.querySelector<HTMLParagraphElement>("#app-version");
+    if (versionEl) versionEl.textContent = `v${version}`;
+  } catch {
+    // silently ignore — fallback static value already in HTML
+  }
+
   try {
     packs = await invoke<PackInfo[]>("list_packs");
     for (const pack of packs) {
