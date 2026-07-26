@@ -188,4 +188,6 @@ static EMBEDDED: &[EmbeddedPack] = &[
     embed_pack!("clicky"),
     embed_pack!("tactile"),
     embed_pack!("typewriter"),
+    embed_pack!("silent"),
+    embed_pack!("heavy"),
 ];

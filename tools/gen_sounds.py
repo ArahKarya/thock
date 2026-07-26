@@ -245,6 +245,30 @@ PACKS = {
         ring_decay=60.0,
         seed=400,
     ),
+    "silent": dict(
+        name="Silent",
+        description="Linear switches, muted and minimal — quiet enough for the office.",
+        dur=0.032,
+        body_hz=210.0,
+        body_decay=140.0,
+        click_decay=550.0,
+        click_cut=4500.0,
+        body_gain=0.30,
+        click_gain=0.35,
+        seed=500,
+    ),
+    "heavy": dict(
+        name="Heavy",
+        description="Deep, boomy thock with a low-end resonant body.",
+        dur=0.075,
+        body_hz=95.0,
+        body_decay=35.0,
+        click_decay=220.0,
+        click_cut=5000.0,
+        body_gain=0.75,
+        click_gain=0.75,
+        seed=600,
+    ),
 }
 
 MANIFEST_KEYS = {

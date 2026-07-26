@@ -18,7 +18,7 @@
 
 > Produk **Arah Karya Sinergi (AKS)**. Original, clean-room — not affiliated with any other keyboard-sound application.
 
-Thock is a lightweight system-tray utility that intercepts global keystrokes and plays **mechanically satisfying sounds** — built on Tauri 2 (Rust backend + web UI). It ships **4 synthesized sound packs** (Thock, Clicky, Tactile, Typewriter), supports mouse-click sounds, and persists your settings to the OS config directory. All bundled audio is **CC0 — procedurally generated** from scratch, containing no third-party samples.
+Thock is a lightweight system-tray utility that intercepts global keystrokes and plays **mechanically satisfying sounds** — built on Tauri 2 (Rust backend + web UI). It ships **6 synthesized sound packs** (Thock, Clicky, Tactile, Typewriter, Silent, Heavy), supports mouse-click sounds, and persists your settings to the OS config directory. All bundled audio is **CC0 — procedurally generated** from scratch, containing no third-party samples.
 
 Designed to be pluggable: bring your own sound packs via a simple JSON manifest.
 
@@ -36,7 +36,7 @@ Designed to be pluggable: bring your own sound packs via a simple JSON manifest.
 |---|---|
 | Membrane keyboards feel dead | Global hook plays satisfying WAV on every keystroke — system-wide |
 | Sound packs use proprietary/ripped audio | All bundled audio CC0, procedurally synthesized via `tools/gen_sounds.py` |
-| One-size-fits-all sound | 4 distinct pack profiles + live switching from tray |
+| One-size-fits-all sound | 6 distinct pack profiles + live switching from tray |
 | Overlapping keys sound wrong | Audio thread uses rodio mixing — rapid keystrokes never cut each other off |
 | Annoying auto-repeat clicks | Held-key tracking filters repeated events — only first press sounds |
 
@@ -58,6 +58,8 @@ src-tauri/
     clicky/              Clicky pack
     tactile/             Tactile pack
     typewriter/          Typewriter pack
+    silent/              Silent pack (muted, minimal — office-friendly)
+    heavy/               Heavy pack (deep, boomy low-end)
 tools/
   gen_sounds.py          Regenerates all bundled packs (stdlib only, no deps)
 ```
@@ -172,7 +174,7 @@ Global key capture requires OS permission:
 - [x] Global keystroke listener (rdev, dedicated thread)
 - [x] Audio mixing with overlapping-key support (rodio)
 - [x] Auto-repeat suppression
-- [x] 4 bundled CC0 sound packs (Thock, Clicky, Tactile, Typewriter)
+- [x] 6 bundled CC0 sound packs (Thock, Clicky, Tactile, Typewriter, Silent, Heavy)
 - [x] Mouse click sounds (left / right / middle), separately toggleable
 - [x] Volume + random pitch-variation controls
 - [x] Key-release sounds (optional)
