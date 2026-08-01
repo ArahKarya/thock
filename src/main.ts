@@ -1,6 +1,8 @@
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { getVersion } from "@tauri-apps/api/app";
+import { check } from "@tauri-apps/plugin-updater";
+import { relaunch } from "@tauri-apps/plugin-process";
 
 interface Config {
   enabled: boolean;
@@ -29,6 +31,8 @@ const el = {
   release: document.querySelector<HTMLInputElement>("#release")!,
   test: document.querySelector<HTMLButtonElement>("#test")!,
   hint: document.querySelector<HTMLParagraphElement>("#hint")!,
+  checkUpdate: document.querySelector<HTMLButtonElement>("#check-update")!,
+  updateStatus: document.querySelector<HTMLParagraphElement>("#update-status")!,
 };
 
 let packs: PackInfo[] = [];
@@ -112,6 +116,48 @@ async function init(): Promise<void> {
   el.test.addEventListener("click", () => {
     void invoke("play_test");
   });
+
+  el.checkUpdate.addEventListener("click", () => {
+    void runUpdateCheck();
+  });
+}
+
+/** Check GitHub Releases for a signed update; download + install if found. */
+async function runUpdateCheck(): Promise<void> {
+  el.checkUpdate.disabled = true;
+  el.updateStatus.textContent = "Checking…";
+  try {
+    const update = await check();
+    if (!update) {
+      el.updateStatus.textContent = "You're on the latest version.";
+      el.checkUpdate.disabled = false;
+      return;
+    }
+    el.updateStatus.textContent = `Downloading v${update.version}…`;
+    let downloaded = 0;
+    let total = 0;
+    await update.downloadAndInstall((event) => {
+      switch (event.event) {
+        case "Started":
+          total = event.data.contentLength ?? 0;
+          break;
+        case "Progress":
+          downloaded += event.data.chunkLength;
+          if (total > 0) {
+            const pctDone = Math.round((downloaded / total) * 100);
+            el.updateStatus.textContent = `Downloading v${update.version}… ${pctDone}%`;
+          }
+          break;
+        case "Finished":
+          el.updateStatus.textContent = "Installing… app will restart.";
+          break;
+      }
+    });
+    await relaunch();
+  } catch (error: unknown) {
+    el.updateStatus.textContent = `Update failed: ${String(error)}`;
+    el.checkUpdate.disabled = false;
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
